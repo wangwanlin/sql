@@ -1,0 +1,25 @@
+分析函数提供一系列比较高级的SQL 功能。分析函数时建立在数据窗口（over 在一定的数据库范
+围进行数据分析），在一定的数据范围进行排序、汇总等。
+查询当前员工所在部门的平均工资、最高工资和最低工资，即可通过分析函数来实现
+
+SELECT e.last_name,
+e.salary,
+d.department_name,
+AVG(e.salary) over(PARTITION BY d.department_name) department_avg_salary,
+MAX(e.salary) over(PARTITION BY d.department_name) department_max_salary,
+MIN(e.salary) over(PARTITION BY d.department_name) department_min_salary
+FROM employees e, departments d
+WHERE 1 = 1
+AND e.department_id = d.department_id;
+
+SELECT d.department_name,
+e.last_name,
+e.salary,
+rank() over(PARTITION BY d.department_name ORDER BY e.salary DESC) dept_salary_rank1,
+dense_rank() over(PARTITION BY d.department_name ORDER BY e.salary DESC) dept_salary_rank2,
+row_number() over(PARTITION BY d.department_name ORDER BY e.salary DESC) dept_salary_rank3
+FROM employees e, departments d
+WHERE 1 = 1
+AND e.department_id = d.department_id;
+
+Analyse function only is a column. Top sql is only a column, but latter has sequences.
