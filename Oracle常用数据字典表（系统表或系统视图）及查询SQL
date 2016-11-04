@@ -23,3 +23,11 @@ all_开头
         all_tables所有的表对象信息
 
         all_indexes所有的数据库对象索引的信息    
+alter   system     kill   session   '261,539';
+
+
+通过分组，统计每个不同的用户或主机打开的Oracle用户会话总数：
+select username,machine,count(*) from v$session group by username,machine; 
+
+根据SID和SERIAL#可以终止用户会话：
+ALTER SYSTEM KILL SESSION 'v_sid,v_serial#' immediate; 
